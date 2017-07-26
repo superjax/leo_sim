@@ -4,6 +4,29 @@ linear_mu: 0.2
 angular_mu: 0.3
 ground_effect: [-55.3516, 181.8265, -203.9874, 85.3735, -7.6619]
 
+# Controller Limits
+max_roll: 0.35
+max_pitch: 0.35
+max_yaw_rate: 3.14159
+max_u: 1.5
+max_v: 1.5
+max_w: 1.5
+hover_throttle: 0.486
+
+# Controller Gains
+pid_controller: {
+  uP: 0.5, uI: 0.05, uD: 0.1,    uvtau: 0.15,
+  vP: 0.5, vI: 0.05, vD: 0.1,
+  nP: 1.00, nI: 0.0, nD: 0.40,    nedtau: 0.15,
+  eP: 1.00, eI: 0.0, eD: 0.40,
+  dP: 0.16, dI: 0.05, dD: 0.2,
+  yawP: 1.11, yawI: 0.31, yawD: 0.0, yawtau: 0.15,
+  hover_throttle: 0.468,
+  integrator_threshold: 0.8,
+  xIntegrator: 1,
+  uIntegrator: 1
+}
+
 # Dynamics
 num_rotors: 4
 rotor_positions: [ 0.1926,  0.230, -0.0762,
@@ -25,14 +48,38 @@ rotor_tau_down: 0.1644
 
 ground_altitude: 1387  #Default in Provo, UT (4551 ft)
 
+# Sensor Configuration
+body_to_xtion: {
+  tx: 0,
+  ty: 0,
+  tz: 0,
+  qw: 1,
+  qx: 0,
+  qy: 0,
+  qz: 0,
+}
+body_to_laser: {
+  tx: 0,
+  ty: 0,
+  tz: 0,
+  qw: 1,
+  qx: 0,
+  qy: 0,
+  qz: 0,
+}
+
 # Sensor Noise Parameters (These are empirically-determined)
 gyro_stdev: 0.13
 gyro_bias_range:  0.15
 gyro_bias_walk_stdev: 0.0002
 
-acc_stdev: 1.15
-acc_bias_range: 0.15
-acc_bias_walk_stdev: 0.0002
+# acc_stdev: 1.15
+# acc_bias_range: 0.15
+# acc_bias_walk_stdev: 0.0002
+
+acc_stdev: 0.00
+acc_bias_range: 0.01
+acc_bias_walk_stdev: 0.0000
 
 baro_stdev: 4.0
 baro_bias_range: 500
@@ -41,11 +88,6 @@ baro_bias_walk_stdev: 0.1
 sonar_stdev: 0.03
 sonar_min_range: 0.25
 sonar_max_range: 8.0
-
-# TODO: update these with empirically-derived values
-airspeed_stdev: 1.15
-airspeed_bias_range: 0.15
-airspeed_bias_walk_stdev: 0.001
 
 mag_stdev: 1.15
 mag_bias_range: 0.15
