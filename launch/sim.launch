@@ -25,8 +25,8 @@
   </node>
 
   <!-- RC Simulation -->
-  <!-- <node name="rc_joy" pkg="rosflight_utils" type="rc_joy"/> -->
-  <node name="dummy_rc" pkg="rosflight_utils" type="rc_sim">
+  <node name="rc_joy" pkg="rosflight_utils" type="rc_joy">
+  <!-- <node name="dummy_rc" pkg="rosflight_utils" type="rc_sim"> -->
     <remap from="RC" to="leo/RC"/>
   </node>
 
