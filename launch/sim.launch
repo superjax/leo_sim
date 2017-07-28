@@ -25,32 +25,9 @@
   </node>
 
   <!-- RC Simulation -->
-  <node name="rc_joy" pkg="rosflight_utils" type="rc_joy">
+  <node name="rc_joy" pkg="rosflight_joy" type="rc_joy">
   <!-- <node name="dummy_rc" pkg="rosflight_utils" type="rc_sim"> -->
     <remap from="RC" to="leo/RC"/>
-  </node>
-
-  <!-- Joystick -->
-  <node name="velocity_commander" pkg="leo_sim" type="command_supplier" output="screen">
-    <remap from="command" to="velocity_command"/>
-  </node>
-
-  <!--Estimation-->
-  <!-- <node name="start_trigger" pkg="rmekf" type="start_trigger.py"/> -->
-  <node name="rmekf"         pkg="rmekf" type="rmekf_node" output="screen">
-    <rosparam command="load" file="$(find rmekf)/params/estimator.yaml"/>
-    <remap from="altimeter" to="sonar"/>
-  </node>
-
-  <!--Control-->
-  <node name="pid_controller"      pkg="rotor_controller"    type="rotor_controller_pid"  output="screen">
-    <remap from="relative_state" to="relative_state_truth"/>
-  </node>
-
-  <!-- VO -->
-  <node name="vo_sim" pkg="vo_sim" type="vo_sim_node" output="screen">
-    <remap from="vo_out" to="vo"/>
-    <remap from="truth" to="leo/truth/NED"/>
   </node>
 
 </launch>
