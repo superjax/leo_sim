@@ -1,4 +1,7 @@
 <launch>
+
+  <arg name="bag_name" default="rmekf_sim"/>
+
   <!-- Load Global Parameters for Leo -->
   <rosparam command="load" file="$(find leo_sim)/param/leo.yaml"/>
 
@@ -10,7 +13,7 @@
     <arg name="y" value="0"/>
     <arg name="z" value="0.1"/>
     <arg name="yaw" value="0"/>
-    <arg name="paused" value="true"/>
+    <arg name="paused" value="false"/>
     <arg name="gui" value="true"/>
     <arg name="verbose" value="true"/>
     <arg name="debug" value="false"/>
@@ -25,21 +28,23 @@
   </node>
 
   <!-- RC Simulation -->
-  <node name="rc_joy" pkg="rosflight_utils" type="rc_joy">
-  <!-- <node name="dummy_rc" pkg="rosflight_utils" type="rc_sim"> -->
+  <!-- <node name="rc_joy" pkg="rosflight_joy" type="rc_joy"> -->
+  <node name="dummy_rc" pkg="rosflight_utils" type="rc_sim">
     <remap from="RC" to="leo/RC"/>
   </node>
 
   <!-- Joystick -->
-  <node name="velocity_commander" pkg="leo_sim" type="command_supplier" output="screen">
-    <remap from="command" to="velocity_command"/>
-  </node>
+  <node name="velocity_commander" pkg="rosflight_joy" type="velocity_command_joy"/>
 
   <!--Estimation-->
-  <!-- <node name="start_trigger" pkg="rmekf" type="start_trigger.py"/> -->
+  <node name="start_trigger" pkg="rmekf" type="start_trigger.py" output="screen"/>
   <node name="rmekf"         pkg="rmekf" type="rmekf_node" output="screen">
     <rosparam command="load" file="$(find rmekf)/params/estimator.yaml"/>
     <remap from="altimeter" to="sonar"/>
+    <!-- <param name="vo_stdv_gate" value="0.000000001"/> -->
+    <param name="alt_stdv_gate" value="0.000000001"/>
+    <param name="imu_stdv_gate" value="0.000000001"/>
+    <param name="gravity" value="9.8"/>
   </node>
 
   <!--Control-->
@@ -50,7 +55,15 @@
   <!-- VO -->
   <node name="vo_sim" pkg="vo_sim" type="vo_sim_node" output="screen">
     <remap from="vo_out" to="vo"/>
-    <remap from="truth" to="leo/truth/NED"/>
+    <remap from="truth" to="leo/truth/NWU"/>
+    <param name="max_translation" value="1000"/>
+    <param name="max_yaw" value="1000"/>
+    <param name="gravity" value="9.8"/>
   </node>
+
+  <!-- ROSbag -->
+  <!-- <node name="record" pkg="rosbag" type="record" args="-O $(arg bag_name) /sonar /imu/data /vo /is_flying /relative_state_truth /relative_state /snapshot /voT_residual /node /alt_residual /voR_residual /imu_residual /edge /leo/truth/NED /leo/truth/NWU"/> -->
+  <node name="record" pkg="rosbag" type="record" args="-O $(arg bag_name) /sonar /imu/data /leo/truth/NED /leo/truth/NWU /status"/>
+
 
 </launch>

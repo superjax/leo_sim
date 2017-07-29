@@ -1,7 +1,7 @@
 # Common Global Physical Parameters
 mass: 2.856
-linear_mu: 0.2
-angular_mu: 0.3
+linear_mu: 0.05
+angular_mu: 0.05
 ground_effect: [-55.3516, 181.8265, -203.9874, 85.3735, -7.6619]
 
 # Controller Limits
@@ -11,15 +11,16 @@ max_yaw_rate: 3.14159
 max_u: 1.5
 max_v: 1.5
 max_w: 1.5
-hover_throttle: 0.486
+hover_throttle: 0.510
 
 # Controller Gains
 pid_controller: {
-  uP: 0.5, uI: 0.05, uD: 0.1,    uvtau: 0.15,
-  vP: 0.5, vI: 0.05, vD: 0.1,
+  uP: 0.2, uI: 0.00, uD: 0.05,    uvtau: 0.15,
+  vP: 0.2, vI: 0.00, vD: 0.1,
+  wP: 0.65, wI: 0.00, wD: 0.0,
   nP: 1.00, nI: 0.0, nD: 0.40,    nedtau: 0.15,
   eP: 1.00, eI: 0.0, eD: 0.40,
-  dP: 0.16, dI: 0.05, dD: 0.2,
+  dP: 1.0, dI: 0.01, dD: 0.1,
   yawP: 1.11, yawI: 0.31, yawD: 0.0, yawtau: 0.15,
   hover_throttle: 0.468,
   integrator_threshold: 0.8,
@@ -53,10 +54,10 @@ body_to_xtion: {
   tx: 0,
   ty: 0,
   tz: 0,
-  qw: 1,
-  qx: 0,
-  qy: 0,
-  qz: 0,
+  qw: 0.5,
+  qx: 0.5,
+  qy: 0.5,
+  qz: 0.5,
 }
 body_to_laser: {
   tx: 0,
@@ -69,16 +70,20 @@ body_to_laser: {
 }
 
 # Sensor Noise Parameters (These are empirically-determined)
-gyro_stdev: 0.13
-gyro_bias_range:  0.15
-gyro_bias_walk_stdev: 0.0002
+gyro_stdev: 0.0
+gyro_bias_range: 0.0
+gyro_bias_walk_stdev: 0.0
+
+# gyro_stdev: 0.13
+# gyro_bias_range:  0.15
+# gyro_bias_walk_stdev: 0.0002
 
 # acc_stdev: 1.15
 # acc_bias_range: 0.15
 # acc_bias_walk_stdev: 0.0002
 
 acc_stdev: 0.00
-acc_bias_range: 0.01
+acc_bias_range: 0.00
 acc_bias_walk_stdev: 0.0000
 
 baro_stdev: 4.0
